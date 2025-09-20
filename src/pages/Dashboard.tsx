@@ -1,6 +1,7 @@
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { TrendingUp, FileText, Shield, DollarSign } from "lucide-react";
+import EncryptedTradeForm from "@/components/EncryptedTradeForm";
 
 const Dashboard = () => {
   const stats = [
@@ -77,6 +78,12 @@ const Dashboard = () => {
           );
         })}
       </div>
+
+      {/* Encrypted Trade Form */}
+      <EncryptedTradeForm 
+        contractAddress="0x742d35Cc6634C0532925a3b8D4C9db96C4b4d8b6" 
+        abi={[]} 
+      />
 
       {/* Recent Activity */}
       <Card className="p-6 bg-card/80 backdrop-blur-sm border-border/50">

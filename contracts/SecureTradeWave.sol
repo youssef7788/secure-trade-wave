@@ -219,6 +219,54 @@ contract SecureTradeWave is SepoliaConfig {
         return settlementId;
     }
     
+    function encryptTradeData(
+        externalEuint32 amount,
+        externalEuint32 validityPeriod,
+        string memory documentHash,
+        bytes calldata inputProof
+    ) public returns (uint256) {
+        require(bytes(documentHash).length > 0, "Document hash cannot be empty");
+        
+        uint256 documentId = documentCounter++;
+        
+        // Convert external encrypted values to internal FHE format
+        euint32 internalAmount = FHE.fromExternal(amount, inputProof);
+        euint32 internalValidityPeriod = FHE.fromExternal(validityPeriod, inputProof);
+        
+        tradeDocuments[documentId] = TradeDocument({
+            documentId: FHE.asEuint32(0), // Will be set properly later
+            amount: internalAmount,
+            validityPeriod: internalValidityPeriod,
+            isVerified: false,
+            isActive: true,
+            documentHash: documentHash,
+            issuer: msg.sender,
+            beneficiary: address(0), // Will be set by beneficiary
+            timestamp: block.timestamp
+        });
+        
+        emit DocumentCreated(documentId, msg.sender, documentHash);
+        return documentId;
+    }
+    
+    function updateEncryptedData(
+        uint256 documentId,
+        externalEuint32 newAmount,
+        externalEuint32 newValidityPeriod,
+        bytes calldata inputProof
+    ) public {
+        require(tradeDocuments[documentId].issuer == msg.sender, "Only issuer can update");
+        require(tradeDocuments[documentId].isActive, "Document is not active");
+        
+        // Convert external encrypted values to internal
+        euint32 internalNewAmount = FHE.fromExternal(newAmount, inputProof);
+        euint32 internalNewValidityPeriod = FHE.fromExternal(newValidityPeriod, inputProof);
+        
+        // Update encrypted data
+        tradeDocuments[documentId].amount = internalNewAmount;
+        tradeDocuments[documentId].validityPeriod = internalNewValidityPeriod;
+    }
+    
     function verifyDocument(uint256 documentId, bool isVerified) public {
         require(msg.sender == verifier, "Only verifier can verify documents");
         require(tradeDocuments[documentId].issuer != address(0), "Document does not exist");
