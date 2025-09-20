@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Wallet, Shield, Anchor } from "lucide-react";
+import { Wallet, Globe, FileText, CheckCircle } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import logo from "@/assets/trade-finance-logo.png";
@@ -41,23 +41,25 @@ const Header = () => {
                   location.pathname === '/dashboard' ? 'text-white' : 'text-ocean-mist hover:text-white'
                 }`}
               >
-                <Shield className="w-4 h-4" />
+                <Globe className="w-4 h-4" />
                 Dashboard
               </Link>
               <Link 
                 to="/documents" 
-                className={`transition-smooth ${
+                className={`transition-smooth flex items-center gap-2 ${
                   location.pathname === '/documents' ? 'text-white' : 'text-ocean-mist hover:text-white'
                 }`}
               >
+                <FileText className="w-4 h-4" />
                 Documents
               </Link>
               <Link 
                 to="/validation" 
-                className={`transition-smooth ${
+                className={`transition-smooth flex items-center gap-2 ${
                   location.pathname === '/validation' ? 'text-white' : 'text-ocean-mist hover:text-white'
                 }`}
               >
+                <CheckCircle className="w-4 h-4" />
                 Validation
               </Link>
             </nav>

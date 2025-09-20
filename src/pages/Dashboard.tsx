@@ -1,6 +1,6 @@
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { TrendingUp, FileText, Shield, DollarSign } from "lucide-react";
+import { TrendingUp, FileText, Globe, DollarSign } from "lucide-react";
 import EncryptedTradeForm from "@/components/EncryptedTradeForm";
 
 const Dashboard = () => {
@@ -22,11 +22,11 @@ const Dashboard = () => {
       color: "text-maritime-gold"
     },
     {
-      title: "Security Score",
+      title: "Global Network",
       value: "98.5%",
       change: "+2%",
       trend: "up",
-      icon: Shield,
+      icon: Globe,
       color: "text-secure-green"
     },
     {
